@@ -63,7 +63,7 @@ impl FileBrowser {
             self.entries.push(parent.to_path_buf());
         }
         
-        if let Ok(entries) = std::fs::read_dir(&self.current_dir) {
+        if let Result::Ok(entries) = std::fs::read_dir(&self.current_dir) {
             let mut paths = entries
                 .filter_map(|e| e.ok())
                 .map(|e| e.path())
