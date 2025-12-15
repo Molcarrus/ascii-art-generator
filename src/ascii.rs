@@ -252,7 +252,7 @@ impl EdgeDetector {
                 
                 for ky in 0..3 {
                     for kx in 0..3 {
-                        let px = (x + ks as i32 - 1).clamp(0, w - 1) as u32;
+                        let px = (x + kx as i32 - 1).clamp(0, w - 1) as u32;
                         let py = (y + ky as i32 - 1).clamp(0, h - 1) as u32;
                         let pixel = resized.get_pixel(px, py).0[0] as i32;
                         gx += pixel * sobel_x[ky][kx];
@@ -280,5 +280,26 @@ impl EdgeDetector {
             width: config.width as usize, 
             height: new_height as usize, 
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_brightness_calculation() {
+        let white = Rgba([255, 255, 255, 255]);
+        assert!((AsciiGenerator::pixel_brightness(white) - 1.0).abs() < 0.01);
+        
+        let black = Rgba([0, 0, 0, 255]);
+        assert!(AsciiGenerator::pixel_brightness(black) < 0.01);
+    }
+    
+    #[test]
+    fn test_character_set_cycle() {
+        let cs = CharacterSet::Standard;
+        assert_eq!(cs.next(), CharacterSet::Detailed);
+        assert_eq!(cs.prev(), CharacterSet::Binary);
     }
 }
