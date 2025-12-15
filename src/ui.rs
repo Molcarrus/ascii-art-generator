@@ -272,8 +272,8 @@ fn draw_save_dialog(frame: &mut Frame, app: &App) {
         .borders(Borders::ALL)
         .border_style(Style::default().fg(Color::Green));
     
-    let inner = block.inner(area)
-        frame.render_widget(block, area);
+    let inner = block.inner(area);
+    frame.render_widget(block, area);
     
     let chunks = Layout::default()
         .direction(Direction::Vertical)
